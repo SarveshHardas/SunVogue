@@ -1,103 +1,199 @@
+'use client';
+
 import Image from "next/image";
+import {useGSAP} from "@gsap/react";
+import {SplitText, ScrollTrigger} from "gsap/all";
+import gsap from "gsap";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+gsap.registerPlugin(ScrollTrigger);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+export default function Home(){
+
+    useGSAP(()=>{
+        const heroSplit = new SplitText("#title",{type:'chars, words'});
+        const subTitleSplit = new SplitText("#sub-title",{type:'chars, words'});
+
+        gsap.from(heroSplit.chars,{
+            opacity:0,
+            yPercent:-100,
+            duration:1.8,
+            ease:"expo.inOut",
+            stagger:0.06
+        })
+        gsap.from(subTitleSplit.chars,{
+                opacity:0,
+                yPercent:-100,
+                delay:1.3,
+                duration:1.8,
+                stagger:0.02,
+            })
+        gsap.from("#herogirl",{
+            opacity:0,
+            x:100,
+            duration:1,
+            delay:3,
+        })
+        gsap.from("#shop-button",{
+            opacity:0,
+            yPercent:-100,
+            duration:1.8,
+            delay:2,
+            ease:"bounce.out",
+        })
+        gsap.from("#fttext",{
+            yPercent:-100,
+            opacity:0,
+            duration:2,
+            delay:3,
+            ease:"bounce.out",
+        })
+    },[])
+
+    return (
+        <section>
+            <section id="hero" className="w-full bg-[#d6f7c8]">
+                <div className="flex justify-center items-center">
+                    <div className="mx-[120px] py-[50px] space-y-7">
+                        <p id="title" className="uppercase text-6xl text-black font-semibold font-sans">
+                            Unleash<br/>Your<br/>Style
+                        </p>
+                        <p id="sub-title" className="text-2xl text-black font-normal">
+                            Explore our collection of<br/>
+                            designer sunglasses and fashion<br/>
+                            essentials
+                        </p>
+                        <button type="submit" id="shop-button" className="bg-black text-white px-7 py-4 rounded-lg">
+                            Shop Now
+                        </button>
+                    </div>
+                    <div className="flex justify-end items-end h-full" id={"herogirl"}>
+                        <Image
+                            src="/herogirl.png"
+                            alt="Fashion model wearing black sunglasses"
+                            width={600}
+                            height={400}
+                            className="object-contain"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" className="bg-white px-[120px] py-10">
+                <p id="fttext" className="text-black font-semibold text-center text-2xl py-5">
+                    Featured Collection
+                </p>
+                <div className="flex justify-center items-center gap-[60px] max-w-[1280px] mx-auto">
+                    {[
+                        { src: "/model1.png", title: "Aviator Classic", price: "$150" },
+                        { src: "/model2.png", title: "Vintage Round", price: "$120" },
+                        { src: "/model3.png", title: "Modern Chic", price: "$180" }
+                    ].map((item, idx) => (
+                        <div key={idx} className="space-y-5 hover:scale-110 transition ease-in duration-200">
+                            <Image
+                                src={item.src}
+                                alt={item.title}
+                                width={250}
+                                height={100}
+                                className="rounded-xl"
+                            />
+                            <div>
+                                <p className="text-lg font-medium">{item.title}</p>
+                                <p className="text-sm text-gray-600">{item.price}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            <section id="about" className="bg-[#f5eee8] flex justify-center items-center gap-[300px] px-[120px] py-10">
+                <div className="space-y-10">
+                    <p className="text-3xl text-semibold font-sans">Who We Are</p>
+                    <p className="text-xl  text-black font-normal">
+                        At SunVogue, we believe fashion is<br/>
+                        about making a statement. Our pieces<br/>
+                        blend timeless elegance with<br/>
+                        contemporary trends, crafted for<br/>
+                        those who dare to stand out.
+                    </p>
+                </div>
+                <div>
+                    <Image src="/whorv.png" alt='whorv' width={250} height={150} className="scale-[120%] rounded-xl"/>
+                </div>
+            </section>
+
+            <section id="shop" className="mt-10">
+                <p className="text-4xl text-center">Shop by Style</p>
+                <div className="flex justify-center items-center text-center gap-10 py-5">
+                    <div>
+                        <Image src="/sbs1.png" alt="sbs1" width={200} height={200} className={"rounded-xl my-2"}/>
+                        <p className="text-bold text-black text-2xl">Casual Everyday</p>
+                        <p>Laid back frames<br/>perfect for daily wear</p>
+                    </div>
+                    <div>
+                        <Image src="/sbs2.png" alt="sbs2" width={200} height={200} className={"rounded-xl my-2"}/>
+                        <p className="text-bold text-black text-2xl">Luxury Glam</p>
+                        <p>Sophisticated shades<br/>with premium appeal</p>
+                    </div>
+                    <div>
+                        <Image src="/sbs3.png" alt="sbs3" width={200} height={200} className={"rounded-xl my-2"}/>
+                        <p className="text-bold text-black text-2xl">Sporty Vibe</p>
+                        <p>Activewear-compatible<br/>sunglasses.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="review" className='px-[120px] py-10 space-y-5'>
+                <div>
+                    <p className="text-center text-4xl py-5 font-medium">What our customers say</p>
+                </div>
+                <div className="flex justify-center items-center text-center gap-10 text-2xl">
+                    <div className={"space-y-5"}>
+                        <p>
+                            The most comfortable<br/>
+                            and stylish shades I have<br/>
+                            owned. The quality<br/>
+                            is next-level!<br/>
+                        </p>
+                        <span>- Ananya R.</span>
+                    </div>
+                    <div className="space-y-5">
+                        <p>
+                            They fit perfectly<br/>
+                            and elevate every<br/>
+                            outfit i wear.<br/>
+                            Totally worth it.<br/>
+                        </p>
+                        <span className="mt-2">- Kunal M.</span>
+                    </div>
+                    <div className="space-y-5">
+                        <p>
+                            I keep getting<br/>
+                            complements everywhere<br/>
+                            I go with these<br/>
+                            shades!<br/>
+                        </p>
+                        <span className="mt-2">- Shreya V.</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="stay-in-style" className="flex justify-center items-center gap-[350px] bg-[#0c1c24] px-[120px] mt-[64px] space-y-5 text-white">
+                <div className="space-y-5 mt-20">
+                    <p className="text-6xl py-5">Stay in Style</p>
+                    <p className="text-2xl py-5">
+                        Subscribe to our newsletter for<br/>
+                        exclusive deals, style fips; and<br/>
+                        new arrivals
+                    </p>
+                    <input placeholder={"Enter your email"} className={"bg-white text-black text-xl px-6 py-3 rounded-lg"} />
+                    <div>
+                        <button type='submit' className={"bg-red-500 px-8 py-4 rounded text-xl text-semibold"}>Subscribe</button>
+                    </div>
+                </div>
+                <div className={"mt-20"}>
+                    <Image src="/sis.png" alt={"sis"} width={400} height={400}/>
+                </div>
+            </section>
+        </section>
+    );
 }
